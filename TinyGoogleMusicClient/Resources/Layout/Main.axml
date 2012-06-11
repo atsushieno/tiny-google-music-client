@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="fill_parent"
+    p1:layout_height="fill_parent"
+    p1:id="@+id/tableLayout1">
+    <TableRow
+        p1:id="@+id/tableRow1">
+        <ImageButton
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_column="0"
+            p1:id="@+id/openArtistsButton" />
+        <ImageButton
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_column="1"
+            p1:id="@+id/openAlbumsButton" />
+        <ImageButton
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_column="2"
+            p1:id="@+id/openListsButton" />
+    </TableRow>
+    <TableRow
+        p1:id="@+id/tableRow2">
+        <TextView
+            p1:text="Artists"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_column="0"
+            p1:id="@+id/textView12" />
+        <TextView
+            p1:text="Albums"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_column="1"
+            p1:id="@+id/textView11" />
+        <TextView
+            p1:text="Lists"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_column="2"
+            p1:id="@+id/textView13" />
+    </TableRow>
+    <TableRow
+        p1:id="@+id/tableRow3">
+        <ImageButton
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_column="0"
+            p1:id="@+id/loginLogoutSwitchButton" />
+        <ImageButton
+            p1:src="@android:drawable/ic_menu_gallery"
+            p1:layout_column="1"
+            p1:id="@+id/updateSongsButton"
+            p1:clickable="false" />
+    </TableRow>
+    <TableRow
+        p1:id="@+id/tableRow4">
+        <TextView
+            p1:text="Login"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_column="0"
+            p1:id="@+id/loginOrLogoutLabel" />
+        <TextView
+            p1:text="Update Data"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_column="1"
+            p1:id="@+id/textView18" />
+    </TableRow>
+</TableLayout>

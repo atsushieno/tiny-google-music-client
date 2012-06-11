@@ -1,0 +1,4 @@
+To build this app:
+- make sure you have Mono for Android installed.
+- checkout protobuf-net and make sure that MonoDroid build is there.
+
