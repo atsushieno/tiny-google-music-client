@@ -13,7 +13,7 @@ using Android.Widget;
 using String = Java.Lang.String;
 using ICharSequence = Java.Lang.ICharSequence;
 
-namespace no_music_no_desire
+namespace TinyGoogleMusicClient
 {
     [Activity(Label = "Albums")]
     public class AlbumsActivity : Activity

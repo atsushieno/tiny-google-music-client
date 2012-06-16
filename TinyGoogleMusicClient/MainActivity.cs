@@ -19,7 +19,7 @@ using GoogleMusicAPI;
 
 [assembly:UsesPermission (Android.Manifest.Permission.Internet)]
 
-namespace no_music_no_desire
+namespace TinyGoogleMusicClient
 {
     [Activity(Label = "TinyGMusic", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity

@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace no_music_no_desire
+namespace TinyGoogleMusicClient
 {
     class Controller
     {

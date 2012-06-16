@@ -1,3 +1,6 @@
+I thought Google Play Music doesn't support HTC Desire and ended up to create
+this prototype. Turned out it does. So I dump it, just to record.
+
 To build this app:
 - make sure you have Mono for Android installed.
 - checkout protobuf-net and make sure that MonoDroid build is there.

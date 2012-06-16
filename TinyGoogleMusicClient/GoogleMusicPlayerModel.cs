@@ -14,7 +14,7 @@ using Android.Widget;
 
 using GoogleMusicAPI;
 
-namespace no_music_no_desire
+namespace TinyGoogleMusicClient
 {
     class GoogleMusicPlayerModel
     {

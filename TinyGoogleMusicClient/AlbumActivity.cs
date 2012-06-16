@@ -10,7 +10,7 @@ using Android.Widget;
 
 using GoogleMusicAPI;
 
-namespace no_music_no_desire
+namespace TinyGoogleMusicClient
 {
     [Activity(Label = "Album")]
     public class AlbumActivity : Activity
