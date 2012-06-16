@@ -10,14 +10,17 @@
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="0"
+            p1:enabled="false"
             p1:id="@+id/openArtistsButton" />
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="1"
+            p1:enabled="false"
             p1:id="@+id/openAlbumsButton" />
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="2"
+            p1:enabled="false"
             p1:id="@+id/openListsButton" />
     </TableRow>
     <TableRow

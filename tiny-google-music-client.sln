@@ -37,7 +37,7 @@ Global
 		{E2CABC03-1D02-44F2-9202-BEA53D2934E1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = TinyGoogleMusicClient.csproj
+		StartupItem = TinyGoogleMusicClient\TinyGoogleMusicClient.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

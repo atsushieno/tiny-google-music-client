@@ -52,14 +52,19 @@ namespace no_music_no_desire
             api.OnLoginComplete += (o, e) => {
                 logged_in = true;
                 controller.Main.LoggedIn ();
-                if (!controller.Main.TryGetAllSongs (out songs))
+				songs.Clear ();
+                if (controller.Main.TryGetAllSongs (out songs))
+					controller.Main.SongsPrepared ();
+				else
                     api.GetAllSongs ("");
             };
             api.OnGetAllSongsComplete += (latestSongs) => {
                 if (latestSongs == null)
                     throw new ArgumentNullException ("latestSongs");
-                songs = latestSongs;
+				songs.Clear ();
+                songs.AddRange (latestSongs);
                 controller.Main.AllSongsAcquired (songs);
+				controller.Main.SongsPrepared ();
             };
             //api.OnCreatePlaylistComplete += api_OnCreatePlaylistComplete;
             //api.OnGetPlaylistsComplete += new API._GetPlaylists(api_OnGetPlaylistsComplete);

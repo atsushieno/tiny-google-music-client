@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
@@ -13,6 +14,7 @@ using Android.Media;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Util;
 using GoogleMusicAPI;
 
 [assembly:UsesPermission (Android.Manifest.Permission.Internet)]
@@ -57,6 +59,11 @@ namespace no_music_no_desire
             {
                 activity.AllSongsAcquired (songs);
             }
+
+			public void SongsPrepared ()
+			{
+				activity.SongsPrepared ();
+			}
 
             public void LoggedIn ()
             {
@@ -123,29 +130,46 @@ namespace no_music_no_desire
         }
 
         public bool TryGetAllSongs (out List<GoogleMusicSong> songs)
-        {
-            songs = null;
-            var sp = GetSharedPreferences ("tiny_gmusic", FileCreationMode.Private | FileCreationMode.Append);
-            var raw = sp.GetString ("all_songs", null);
-            if (raw == null)
-                return false;
-            var ms = new MemoryStream (System.Text.Encoding.UTF8.GetBytes (raw));
-            songs = ProtoBuf.Serializer.Deserialize<List<GoogleMusicSong>> (ms);
-            return true;
+		{
+			songs = null;
+			try {
+				using (var ifs = IsolatedStorageFile.GetUserStoreForApplication ()) {
+					if (!ifs.FileExists ("all_songs.lst"))
+						return false;
+					var fs = ifs.OpenFile ("all_songs.lst", FileMode.Open);
+					songs = (List<GoogleMusicSong>) new DataContractJsonSerializer (typeof (List<GoogleMusicSong>)).ReadObject (fs);
+					return true;
+				}
+			} catch (Exception ex) {
+				Log.Error ("TinyGMusic", ex.ToString ());
+				AlertDialog dlg;
+				var db = new AlertDialog.Builder (this)
+					.SetTitle ("Error")
+					.SetMessage ("Could not load cached song list. It is ignored")
+					.SetPositiveButton ("OK", delegate {
+					dlg.Hide ();
+				});
+				this.RunOnUiThread (() => dlg = db.Show ());
+				return false;
+			}
         }
 
         public void AllSongsAcquired (List<GoogleMusicSong> songs)
         {
-            var sp = GetSharedPreferences ("tiny_gmusic", FileCreationMode.Private | FileCreationMode.Append);
-            var editor = sp.Edit ();
-            var ds = new DataContractJsonSerializer (songs.GetType ());
             var ms = new MemoryStream ();
             var utf8 = System.Text.Encoding.UTF8;
-            ProtoBuf.Serializer.Serialize<List<GoogleMusicSong>> (ms, songs);
-            editor.PutString ("all_songs", utf8.GetString (ms.GetBuffer (), 0, (int) ms.Length));
-            editor.Commit ();
+			using (var ifs = IsolatedStorageFile.GetUserStoreForApplication ())
+				using (var fs = ifs.CreateFile ("all_songs.lst"))
+					new DataContractJsonSerializer (songs.GetType ()).WriteObject (fs, songs.ToArray ());
             this.RunOnUiThread (() => Toast.MakeText (this, "downloaded song list", ToastLength.Short));
         }
+
+		public void SongsPrepared ()
+		{
+			FindViewById<ImageButton> (Resource.Id.openArtistsButton).Enabled = true;
+            FindViewById<ImageButton> (Resource.Id.openAlbumsButton).Enabled = true;
+            FindViewById<ImageButton> (Resource.Id.openListsButton).Enabled = true;
+		}
 
         /*
         public override void OnCreateContextMenu(IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)

@@ -10,10 +10,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+using String = Java.Lang.String;
+using ICharSequence = Java.Lang.ICharSequence;
+
 namespace no_music_no_desire
 {
     [Activity(Label = "Albums")]
-    public class AlbumsActivity : ListActivity
+    public class AlbumsActivity : Activity
     {
         public class AlbumsActivityController
         {
@@ -22,23 +25,50 @@ namespace no_music_no_desire
             {
                 this.activity = activity;
             }
+
+			public void SongsUpdated ()
+			{
+				activity.UpdateAlbumList ();
+			}
         }
 
         GoogleMusicPlayerModel model {
             get { return GoogleMusicPlayerModel.Instance; }
         }
 
-        protected override void OnCreate(Bundle bundle)
-        {
-            base.OnCreate(bundle);
+        protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
 
-            // Create your application here
+			SetContentView (Resource.Layout.AlbumsView);
 
-            Controller.Instance.Albums = new AlbumsActivityController (this);
+			Controller.Instance.Albums = new AlbumsActivityController (this);
 
-            var list = model.Songs.Select (s => s.Artist).Distinct ().Concat (new string [] {"--select--"}).ToArray ();
-            var adapter = new ArrayAdapter<string> (this, Resource.Id.textOnlyLayoutText, list);
-            this.ListAdapter = adapter;
+			artist = this.Intent.GetStringExtra ("artist");
+
+			var title = FindViewById<TextView> (Resource.Id.albumsViewTitle);
+			title.Text = artist; // could be empty
+
+			var listView = FindViewById<ListView> (Resource.Id.albumsViewList);
+
+			listView.ItemClick += (sender, e) => {
+				var intent = new Intent (this, typeof (AlbumActivity));
+				intent.PutExtra ("album", (ICharSequence) list [e.Position]);
+				StartActivity (intent);
+			};
+
+			UpdateAlbumList ();
+		}
+
+		string artist;
+		String [] list;
+
+		public void UpdateAlbumList ()
+		{
+            list = model.Songs.Where (s => artist != null ? s.Artist == artist : true).Select (s => s.Album).Distinct ().OrderBy (s => s).Select (s => new String (s)).ToArray ();
+
+			var listView = FindViewById<ListView> (Resource.Id.albumsViewList);
+            listView.Adapter = new ArrayAdapter<String> (this, Android.Resource.Layout.SimpleListItem1, list);
         }
     }
 }

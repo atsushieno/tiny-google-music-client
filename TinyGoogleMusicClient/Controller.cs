@@ -25,5 +25,6 @@ namespace no_music_no_desire
 
         public MainActivity.MainActivityController Main { get; internal set; }
         public AlbumsActivity.AlbumsActivityController Albums { get; internal set; }
+        public ArtistsActivity.ArtistsActivityController Artists { get; internal set; }
     }
 }
