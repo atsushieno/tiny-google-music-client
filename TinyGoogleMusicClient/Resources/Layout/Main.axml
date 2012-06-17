@@ -10,18 +10,18 @@
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="0"
-            p1:enabled="false"
-            p1:id="@+id/openArtistsButton" />
+            p1:id="@+id/openArtistsButton"
+            p1:clickable="false" />
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="1"
-            p1:enabled="false"
-            p1:id="@+id/openAlbumsButton" />
+            p1:id="@+id/openAlbumsButton"
+            p1:clickable="false" />
         <ImageButton
             p1:src="@android:drawable/ic_menu_gallery"
             p1:layout_column="2"
-            p1:enabled="false"
-            p1:id="@+id/openListsButton" />
+            p1:id="@+id/openListsButton"
+            p1:clickable="false" />
     </TableRow>
     <TableRow
         p1:id="@+id/tableRow2">
@@ -52,6 +52,10 @@
             p1:layout_column="1"
             p1:id="@+id/updateSongsButton"
             p1:clickable="false" />
+        <TextView
+            p1:minWidth="30px"
+            p1:minHeight="30px"
+            p1:id="@+id/textView19" />
     </TableRow>
     <TableRow
         p1:id="@+id/tableRow4">
@@ -65,5 +69,9 @@
             p1:textAppearance="?android:attr/textAppearanceSmall"
             p1:layout_column="1"
             p1:id="@+id/textView18" />
+        <TextView
+            p1:minWidth="30px"
+            p1:minHeight="30px"
+            p1:id="@+id/textView20" />
     </TableRow>
 </TableLayout>

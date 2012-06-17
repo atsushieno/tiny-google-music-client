@@ -43,9 +43,9 @@ namespace TinyGoogleMusicClient
                 return MediaPlayer.Create (activity, Android.Net.Uri.Parse (url));
             }
 
-            public bool TryGetAllSongs (out List<GoogleMusicSong> songs)
+            public bool TryGetAllSongs (out List<GoogleMusicSong> results)
             {
-                return activity.TryGetAllSongs (out songs);
+                return activity.TryGetAllSongs (out results);
             }
 
             // notifications to the UI
@@ -95,7 +95,7 @@ namespace TinyGoogleMusicClient
             FindViewById<ImageButton> (Resource.Id.openAlbumsButton).Click += (o, e) => StartActivity (new Intent (this, typeof (AlbumsActivity)));
             FindViewById<ImageButton> (Resource.Id.openListsButton).Click += (o, e) => StartActivity (new Intent (this, typeof (PlayListsActivity)));
             FindViewById<ImageButton> (Resource.Id.loginLogoutSwitchButton).Click += (o, e) => { if (model.IsLoggedIn) UIConfirmLogout (); else UIAskLogon (); };
-            FindViewById<ImageButton> (Resource.Id.updateSongsButton).Click += (o, e) => model.UpdateSongs ();
+            FindViewById<ImageButton> (Resource.Id.updateSongsButton).Click += (o, e) => RequestUpdateSongs ();
 
             controller.Main = new MainActivityController (this);
             model.ProcessDefaultLogin ();
@@ -129,20 +129,20 @@ namespace TinyGoogleMusicClient
                 loginCallback (user, pwd);
         }
 
-        public bool TryGetAllSongs (out List<GoogleMusicSong> songs)
+        public bool TryGetAllSongs (out List<GoogleMusicSong> results)
 		{
-			songs = null;
+			results = null;
 			try {
 				using (var ifs = IsolatedStorageFile.GetUserStoreForApplication ()) {
 					if (!ifs.FileExists ("all_songs.lst"))
 						return false;
 					var fs = ifs.OpenFile ("all_songs.lst", FileMode.Open);
-					songs = (List<GoogleMusicSong>) new DataContractJsonSerializer (typeof (List<GoogleMusicSong>)).ReadObject (fs);
+					results = (List<GoogleMusicSong>) new DataContractJsonSerializer (typeof (List<GoogleMusicSong>)).ReadObject (fs);
 					return true;
 				}
 			} catch (Exception ex) {
 				Log.Error ("TinyGMusic", ex.ToString ());
-				AlertDialog dlg;
+				AlertDialog dlg = null;
 				var db = new AlertDialog.Builder (this)
 					.SetTitle ("Error")
 					.SetMessage ("Could not load cached song list. It is ignored")
@@ -166,9 +166,9 @@ namespace TinyGoogleMusicClient
 
 		public void SongsPrepared ()
 		{
-			FindViewById<ImageButton> (Resource.Id.openArtistsButton).Enabled = true;
-            FindViewById<ImageButton> (Resource.Id.openAlbumsButton).Enabled = true;
-            FindViewById<ImageButton> (Resource.Id.openListsButton).Enabled = true;
+			FindViewById<ImageButton> (Resource.Id.openArtistsButton).Clickable = true;
+            FindViewById<ImageButton> (Resource.Id.openAlbumsButton).Clickable = true;
+            FindViewById<ImageButton> (Resource.Id.openListsButton).Clickable = true;
 		}
 
         /*
@@ -246,6 +246,14 @@ namespace TinyGoogleMusicClient
                 FindViewById<TextView> (Resource.Id.loginOrLogoutLabel).Text = "Login";
                 FindViewById<ImageButton> (Resource.Id.updateSongsButton).Clickable = false;
             });
+        }
+
+        void RequestUpdateSongs ()
+        {
+			FindViewById<ImageButton> (Resource.Id.openArtistsButton).Clickable = false;
+            FindViewById<ImageButton> (Resource.Id.openAlbumsButton).Clickable = false;
+            FindViewById<ImageButton> (Resource.Id.openListsButton).Clickable = false;
+            model.UpdateSongs ();
         }
     }
 }

@@ -18,9 +18,9 @@ namespace TinyGoogleMusicClient
 {
     class GoogleMusicPlayerModel
     {
-        static GoogleMusicPlayerModel instance;
+        static GoogleMusicPlayerModel instance = new GoogleMusicPlayerModel ();
         public static GoogleMusicPlayerModel Instance {
-            get { return instance = instance ?? new GoogleMusicPlayerModel (); }
+            get { return instance; }
         }
 
         GoogleMusicPlayerModel ()
