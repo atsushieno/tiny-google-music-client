@@ -61,6 +61,8 @@ namespace TinyGoogleMusicClient
             api.OnGetAllSongsComplete += (latestSongs) => {
                 if (latestSongs == null)
                     throw new ArgumentNullException ("latestSongs");
+                // FIXME: this should not be necessary, but songs is null *only when it is compiled with csc(!)*
+                songs = songs ?? new List<GoogleMusicSong> ();
 				songs.Clear ();
                 songs.AddRange (latestSongs);
                 controller.Main.AllSongsAcquired (songs);
